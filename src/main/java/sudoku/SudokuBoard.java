@@ -1,0 +1,45 @@
+package sudoku;
+
+import GeneticAlgorithmFramework.Individual;
+
+public class SudokuBoard implements Individual {
+
+    private final Integer[][] board;
+    private int fitness;
+
+    public SudokuBoard(Integer[][] board) {
+        this.board = board;
+        SudokuBoardCalculator calculator = SudokuBoardCalculator.getInstance();
+        this.fitness = (int) calculator.calculateValue(this);
+    }
+
+    @Override
+    public int getFitness() {
+        return fitness;
+    }
+
+    @Override
+    public void setFitness(int fitness) {
+        this.fitness = fitness;
+    }
+
+    public Integer[][] getBoard() {
+        return board;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != null) {
+                    builder.append(board[i][j]).append(" ");
+                } else {
+                    builder.append("- ");
+                }
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
+}
