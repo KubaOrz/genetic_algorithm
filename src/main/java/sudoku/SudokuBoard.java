@@ -30,6 +30,8 @@ public class SudokuBoard implements Individual {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        builder.append("______________________________\n");
+        builder.append(fitness).append("\n\n");
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board[i][j] != null) {
@@ -41,5 +43,9 @@ public class SudokuBoard implements Individual {
             builder.append("\n");
         }
         return builder.toString();
+    }
+
+    public Integer getValueFromBoard(int x, int y) {
+        return board[x][y];
     }
 }
