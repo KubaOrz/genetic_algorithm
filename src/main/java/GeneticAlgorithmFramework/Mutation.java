@@ -2,5 +2,5 @@ package GeneticAlgorithmFramework;
 
 public interface Mutation {
 
-    public Individual mutate(Individual[] population);
+    public Individual[] mutate(Individual[] population);
 }

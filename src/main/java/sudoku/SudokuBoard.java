@@ -4,7 +4,7 @@ import GeneticAlgorithmFramework.Individual;
 
 public class SudokuBoard implements Individual {
 
-    private final Integer[][] board;
+    private Integer[][] board;
     private int fitness;
 
     public SudokuBoard(Integer[][] board) {
@@ -25,6 +25,10 @@ public class SudokuBoard implements Individual {
 
     public Integer[][] getBoard() {
         return board;
+    }
+
+    public void setBoard(Integer[][] newBoard) {
+        this.board = newBoard;
     }
 
     @Override

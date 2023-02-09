@@ -20,11 +20,11 @@ public class SudokuBoardCrossover implements Crossover {
     @Override
     public Individual[] cross(Individual[] parents) {
         int childrenCount = parents.length;
-        SudokuBoard[] parentsSudokuBoards = new SudokuBoard[childrenCount];
+        SudokuBoard[] parentSudokuBoards = new SudokuBoard[childrenCount];
         SudokuBoard[] children = new SudokuBoard[childrenCount];
 
         for (int i = 0; i < childrenCount; i++) {
-            parentsSudokuBoards[i] = (SudokuBoard) parents[i];
+            parentSudokuBoards[i] = (SudokuBoard) parents[i];
         }
 
         for (int i = 0; i < childrenCount; i++) {
@@ -39,8 +39,10 @@ public class SudokuBoardCrossover implements Crossover {
                 int x = cell / 9;
                 int y = cell % 9;
                 Set<Integer> possibleInputs = SudokuInputValidator.checkPossibleInputs(childBoard, x, y);
-                if (possibleInputs.contains(parentsSudokuBoards[parent].getValueFromBoard(x, y))) {
-                    childBoard[x][y] = parentsSudokuBoards[parent].getValueFromBoard(x, y);
+                if (possibleInputs.contains(parentSudokuBoards[parent].getValueFromBoard(x, y))) {
+                    childBoard[x][y] = parentSudokuBoards[parent].getValueFromBoard(x, y);
+                } else {
+                    // TODO jeśli nie dopasujemy to może lepiej tam coś wsadzić z innego rodzica
                 }
                 unchecked.remove(cell);
             }

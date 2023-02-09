@@ -18,6 +18,8 @@ public class SudokuBoardGenerator implements PopulationGenerator {
     public SudokuBoardGenerator(String path) {
         puzzleSample = new Integer[9][9];
         readPuzzleFromTxt(path);
+        System.out.println(new SudokuBoard(puzzleSample));
+
     }
 
     public SudokuBoardGenerator() {
@@ -50,11 +52,11 @@ public class SudokuBoardGenerator implements PopulationGenerator {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(path));
             while (reader.ready()) {
-                char[] line = reader.readLine().toCharArray();
+                char[] line = reader.readLine().replace(" ", "").toCharArray();
                 int x = Integer.parseInt(String.valueOf(line[0]));
                 int y = Integer.parseInt(String.valueOf(line[1]));
                 int value = Integer.parseInt(String.valueOf(line[2]));
-                puzzleSample[x][y] = value;
+                puzzleSample[y][x] = value;
             }
         } catch (IOException e) {
             //TODO może jakiś logger czy coś
