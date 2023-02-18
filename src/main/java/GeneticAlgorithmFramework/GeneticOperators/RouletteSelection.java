@@ -1,15 +1,18 @@
-package GeneticAlgorithmFramework;
+package GeneticAlgorithmFramework.GeneticOperators;
+
+import GeneticAlgorithmFramework.Configuration.GlobalSettings;
+import GeneticAlgorithmFramework.Individual;
 
 import java.util.Random;
 
 public class RouletteSelection implements Selection {
 
-    private static Random random;
+    private final Random random;
+    private final GlobalSettings settings;
 
     public RouletteSelection() {
-        if (random == null) {
-            random = new Random();
-        }
+        this.random = new Random();
+        this.settings = GlobalSettings.getInstance();
     }
 
     @Override
@@ -18,7 +21,7 @@ public class RouletteSelection implements Selection {
         double totalPopulationFitness = 0;
 
         for (int i = 0; i < population.length; i++) {
-            fitnessLevels[i] = population[i].getFitness();
+            fitnessLevels[i] = 1 / population[i].getFitness();
             totalPopulationFitness += fitnessLevels[i];
         }
 
@@ -28,8 +31,8 @@ public class RouletteSelection implements Selection {
             fitnessLevels[i] += fitnessLevels[i - 1];
         }
 
-        Individual[] parents = new Individual[2];
-        for (int i = 0; i < 2; i++) {
+        Individual[] parents = new Individual[GlobalSettings.NUMBER_OF_PARENTS];
+        for (int i = 0; i < GlobalSettings.NUMBER_OF_PARENTS; i++) {
             double rouletteDraw = random.nextDouble();
             int rouletteSection = 0;
             while (fitnessLevels[rouletteSection] < rouletteDraw) {

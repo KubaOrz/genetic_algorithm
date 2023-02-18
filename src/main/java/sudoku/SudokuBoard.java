@@ -1,20 +1,23 @@
 package sudoku;
 
+import GeneticAlgorithmFramework.Configuration.GlobalSettings;
 import GeneticAlgorithmFramework.Individual;
+import GeneticAlgorithmFramework.ObjectiveFunction;
 
 public class SudokuBoard implements Individual {
 
     private Integer[][] board;
-    private int fitness;
+    private double fitness;
+    private final ObjectiveFunction calculator;
 
     public SudokuBoard(Integer[][] board) {
         this.board = board;
-        SudokuBoardCalculator calculator = SudokuBoardCalculator.getInstance();
-        this.fitness = (int) calculator.calculateValue(this);
+        calculator = GlobalSettings.getInstance().getObjectiveFunction();
+        this.fitness = calculator.calculateValue(this);
     }
 
     @Override
-    public int getFitness() {
+    public double getFitness() {
         return fitness;
     }
 
@@ -29,6 +32,7 @@ public class SudokuBoard implements Individual {
 
     public void setBoard(Integer[][] newBoard) {
         this.board = newBoard;
+        this.fitness = (int) calculator.calculateValue(this);
     }
 
     @Override
@@ -51,5 +55,10 @@ public class SudokuBoard implements Individual {
 
     public Integer getValueFromBoard(int x, int y) {
         return board[x][y];
+    }
+
+    @Override
+    public int compareTo(Individual o) {
+        return Double.compare(fitness, o.getFitness());
     }
 }

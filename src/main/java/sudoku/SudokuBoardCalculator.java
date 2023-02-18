@@ -1,24 +1,12 @@
 package sudoku;
 
+import GeneticAlgorithmFramework.Individual;
 import GeneticAlgorithmFramework.ObjectiveFunction;
 
 public class SudokuBoardCalculator implements ObjectiveFunction {
 
-    private static SudokuBoardCalculator instance;
-
-    private SudokuBoardCalculator() {
-
-    }
-
-    public static SudokuBoardCalculator getInstance() {
-        if (instance == null) {
-            instance = new SudokuBoardCalculator();
-        }
-        return instance;
-    }
-
     @Override
-    public double calculateValue(Object x) {
+    public double calculateValue(Individual x) {
         if (!(x instanceof SudokuBoard sudokuBoard)) {
             throw new IllegalArgumentException();
         }
@@ -26,7 +14,7 @@ public class SudokuBoardCalculator implements ObjectiveFunction {
         int fitness = 0;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (sudokuBoard.getBoard()[i][j] != null) {
+                if (sudokuBoard.getBoard()[i][j] == null) {
                     fitness++;
                 }
             }

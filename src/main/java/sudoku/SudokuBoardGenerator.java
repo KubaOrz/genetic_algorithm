@@ -95,11 +95,10 @@ public class SudokuBoardGenerator implements PopulationGenerator {
     }
 
     private Integer findMatchingInput(Integer[][] puzzle, int column, int row) {
-        Set<Integer> possibleInputs = checkPossibleInputs(puzzle, column, row);
+        List<Integer> possibleInputs = checkPossibleInputs(puzzle, column, row);
         if (possibleInputs.size() == 0) {
             return null;
         }
-        Integer[] possibleInputsArray = possibleInputs.toArray(new Integer[0]);
-        return possibleInputsArray[random.nextInt(possibleInputs.size())];
+        return possibleInputs.get(random.nextInt(possibleInputs.size()));
     }
 }

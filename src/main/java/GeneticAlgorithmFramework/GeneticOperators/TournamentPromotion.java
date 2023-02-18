@@ -1,25 +1,27 @@
-package sudoku;
+package GeneticAlgorithmFramework.GeneticOperators;
 
+import GeneticAlgorithmFramework.Configuration.GlobalSettings;
 import GeneticAlgorithmFramework.Individual;
-import GeneticAlgorithmFramework.Promotion;
+import GeneticAlgorithmFramework.GeneticOperators.Promotion;
 
 import java.util.Random;
 
 public class TournamentPromotion implements Promotion {
 
-    private static Random random;
+    private final Random random;
+    private final GlobalSettings settings;
 
     public TournamentPromotion() {
-        if (random == null) {
-            random = new Random();
-        }
+        this.random = new Random();
+        this.settings = GlobalSettings.getInstance();
     }
 
     @Override
     public Individual[] promote(Individual[] population) {
         int prevPopulationSize = population.length;
-        int nextPopulationSize = population.length / 2;
+        int nextPopulationSize = settings.getPopulationSize();
         Individual[] nextPopulation = new Individual[nextPopulationSize];
+
         for (int i = 0; i < nextPopulationSize; i++) {
             Individual first = population[random.nextInt(prevPopulationSize)];
             Individual second = population[random.nextInt(prevPopulationSize)];

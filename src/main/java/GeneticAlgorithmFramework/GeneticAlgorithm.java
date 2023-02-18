@@ -1,6 +1,14 @@
 package GeneticAlgorithmFramework;
 
-import java.util.Arrays;
+import GeneticAlgorithmFramework.Configuration.GeneticAlgorithmBuilder;
+import GeneticAlgorithmFramework.Configuration.GlobalSettings;
+import GeneticAlgorithmFramework.GeneticOperators.Crossover;
+import GeneticAlgorithmFramework.GeneticOperators.Mutation;
+import GeneticAlgorithmFramework.GeneticOperators.Promotion;
+import GeneticAlgorithmFramework.GeneticOperators.Selection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GeneticAlgorithm {
 
@@ -10,39 +18,41 @@ public class GeneticAlgorithm {
     private final Crossover crossover;
     private final PopulationGenerator generator;
     private Individual[] population;
+    private final GlobalSettings settings;
 
-    public GeneticAlgorithm(GeneticAlgorithmConfigurer configuration) {
+    public GeneticAlgorithm(GeneticAlgorithmBuilder configuration) {
         this.generator = configuration.getGenerator();
         this.selection = configuration.getSelection();
         this.crossover = configuration.getCrossover();
         this.promotion = configuration.getPromotion();
         this.mutation = configuration.getMutation();
+        this.settings = GlobalSettings.getInstance();
     }
 
     public void run() {
-        int populations = 1000;
-        population = generator.generatePopulation(400);
+        int populations = settings.getNumberOfGenerations();
+        population = generator.generatePopulation(settings.getPopulationSize());
+
         for (int i = 0; i < populations; i++) {
-            Individual[] newPopulation = new Individual[population.length * 2];
-            int newPopulationSize = 0;
-            while (newPopulationSize < population.length * 2) {
+            List<Individual> newPopulation = new ArrayList<>();
+
+            while (newPopulation.size() < settings.getPopulationSize() / GlobalSettings.NUMBER_OF_PARENTS * settings.getNumberOfChildren()) {
                 Individual[] parents = selection.select(population);
                 Individual[] children = crossover.cross(parents);
-                children = mutation.mutate(children);
-                System.arraycopy(parents, 0, newPopulation, newPopulationSize, parents.length);
-                newPopulationSize += parents.length;
-                System.arraycopy(children, 0, newPopulation, newPopulationSize , children.length);
-                newPopulationSize += children.length;
+                //children = mutation.mutate(children);
+                newPopulation.addAll(List.of(parents));
+                newPopulation.addAll(List.of(children));
             }
-            population = promotion.promote(newPopulation);
-            System.out.println(findBestIndividual());
+            population = promotion.promote(newPopulation.toArray(new Individual[0]));
+            Individual best = findBestIndividual();
+            System.out.println(best);
         }
     }
 
     private Individual findBestIndividual() {
         Individual best = population[0];
         for (Individual individual: population) {
-            if (individual.getFitness() > best.getFitness()) {
+            if (individual.compareTo(best) < 0) {
                 best = individual;
             }
         }

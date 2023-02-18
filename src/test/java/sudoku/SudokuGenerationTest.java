@@ -1,6 +1,10 @@
 package sudoku;
 
 import GeneticAlgorithmFramework.*;
+import GeneticAlgorithmFramework.Configuration.GeneticAlgorithmConfigurer;
+import GeneticAlgorithmFramework.GeneticOperators.Crossover;
+import GeneticAlgorithmFramework.GeneticOperators.RouletteSelection;
+import GeneticAlgorithmFramework.GeneticOperators.Selection;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +17,12 @@ public class SudokuGenerationTest {
     static void setUp() {
         //randomGenerator = new SudokuBoardGenerator();
         txtGenerator = new SudokuBoardGenerator("src/test/resources/sudoku_test_cases/test_case_1");
+        GeneticAlgorithmConfigurer configurer = new GeneticAlgorithmConfigurer();
+        configurer.setNumberOfChildren(2)
+                .setPopulationSize(400)
+                .setNumberOfGenerations(2000)
+                .setMutationFrequency(0.25)
+                .saveSettings();
     }
 
     @Test
@@ -59,7 +69,7 @@ public class SudokuGenerationTest {
         Crossover crossover = new SudokuBoardCrossover();
 
         // when
-        Individual[] population = randomGenerator.generatePopulation(populationSize);
+        Individual[] population = txtGenerator.generatePopulation(populationSize);
         Individual[] parents = selection.select(population);
         for (Individual parent: parents) {
             System.out.println(parent);

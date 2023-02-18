@@ -1,7 +1,7 @@
 package GeneticAlgorithmFramework;
 
-public interface Individual {
+public interface Individual extends Comparable<Individual> {
 
-    int getFitness();
+    double getFitness();
     void setFitness(int fitness);
 }

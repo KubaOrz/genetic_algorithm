@@ -2,5 +2,5 @@ package GeneticAlgorithmFramework;
 
 public interface ObjectiveFunction {
 
-    public double calculateValue(Object x);
+    public double calculateValue(Individual x);
 }

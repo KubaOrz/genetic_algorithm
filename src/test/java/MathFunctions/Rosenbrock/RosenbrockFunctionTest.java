@@ -1,40 +1,43 @@
-package sudoku;
+package MathFunctions.Rosenbrock;
 
 import GeneticAlgorithmFramework.GeneticAlgorithm;
 import GeneticAlgorithmFramework.Configuration.GeneticAlgorithmBuilder;
 import GeneticAlgorithmFramework.Configuration.GeneticAlgorithmConfigurer;
 import GeneticAlgorithmFramework.GeneticOperators.KBestSelection;
-import GeneticAlgorithmFramework.GeneticOperators.TournamentPromotion;
+import MathFunctions.ObjectiveFunctions.RosenbrockFunction;
+import MathFunctions.SolutionGenerator;
+import MathFunctions.TwoVarCrossover;
+import MathFunctions.TwoVarMutation;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import GeneticAlgorithmFramework.GeneticOperators.TournamentPromotion;
 
-public class SudokuSolverTest {
+public class RosenbrockFunctionTest {
 
     private static GeneticAlgorithm algorithm;
 
     @BeforeAll
-    public static void configure() {
+    public static void setUp() {
         GeneticAlgorithmConfigurer configurer = new GeneticAlgorithmConfigurer();
         GeneticAlgorithmBuilder builder = new GeneticAlgorithmBuilder();
 
         configurer.setNumberOfChildren(2)
-                .setPopulationSize(400)
-                .setNumberOfGenerations(1000000)
-                .setMutationFrequency(0.09)
-                .setObjectiveFunction(new SudokuBoardCalculator())
+                .setPopulationSize(100)
+                .setNumberOfGenerations(10000000)
+                .setMutationFrequency(0.04)
+                .setObjectiveFunction(new RosenbrockFunction())
                 .saveSettings();
 
-        builder.setGenerator(new SudokuBoardGenerator("src/test/resources/sudoku_test_cases/test_case_1"))
+        builder.setGenerator(new SolutionGenerator())
                 .setSelection(new KBestSelection())
-                .setCrossover(new SudokuBoardCrossover())
+                .setCrossover(new TwoVarCrossover())
                 .setPromotion(new TournamentPromotion())
-                .setMutation(new SudokuBoardMutation());
+                .setMutation(new TwoVarMutation());
         algorithm = builder.getProduct();
     }
 
     @Test
-    public void firstTest() {
+    public void rosenbrockTest() {
         algorithm.run();
     }
-
 }
