@@ -8,7 +8,7 @@ public class SudokuInputValidator {
         List<Integer> inputs;
         inputs = checkColumn(puzzle, column);
         inputs.addAll(checkRow(puzzle, row));
-        inputs.addAll(checkSquare(puzzle, column, row));
+        inputs.addAll(checkSquare(puzzle, row, column));
         List<Integer> possibleInputs = new ArrayList<>();
 
         for (int i = 1; i <= 9; i++) {
@@ -37,10 +37,10 @@ public class SudokuInputValidator {
 
     private static List<Integer> checkSquare(Integer[][] puzzle, int row, int column) {
         List<Integer> numbersInSquare = new ArrayList<>();
-        int horizontal = column / 3;
-        int vertical = row / 3;
-        for (int i = 3 * vertical; i < 3 * (vertical + 1); i++) {
-            for (int j = 3 * horizontal; j < 3 * (horizontal  + 1); j++) {
+        int horizontal = column / 3 * 3;
+        int vertical = row / 3 * 3;
+        for (int i = vertical; i < vertical + 3; i++) {
+            for (int j = horizontal; j < horizontal + 3; j++) {
                 numbersInSquare.add(puzzle[i][j]);
             }
         }

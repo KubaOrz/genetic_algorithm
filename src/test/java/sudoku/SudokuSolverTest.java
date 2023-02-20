@@ -19,8 +19,8 @@ public class SudokuSolverTest {
 
         configurer.setNumberOfChildren(2)
                 .setPopulationSize(400)
-                .setNumberOfGenerations(1000000)
-                .setMutationFrequency(0.09)
+                .setNumberOfGenerations(1000)
+                .setMutationFrequency(0.04)
                 .setObjectiveFunction(new SudokuBoardCalculator())
                 .saveSettings();
 

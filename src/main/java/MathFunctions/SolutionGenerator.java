@@ -24,8 +24,8 @@ public class SolutionGenerator implements PopulationGenerator {
 
     @Override
     public Individual generateIndividual() {
-        double x = random.nextDouble(-10, 10);
-        double y = random.nextDouble(-10, 10);
+        double x = random.nextDouble(-10000, 10000);
+        double y = random.nextDouble(-10000, 10000);
         return new TwoVarSolution(x, y);
     }
 

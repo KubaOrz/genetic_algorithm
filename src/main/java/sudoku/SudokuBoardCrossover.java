@@ -44,7 +44,7 @@ public class SudokuBoardCrossover implements Crossover {
                     continue;
                 }
 
-                if (random.nextDouble() < settings.getMutationFrequency()) {
+                if (random.nextDouble() < settings.getMutationFrequency() && possibleInputs.size() > 1) {
                     childBoard[x][y] = possibleInputs.get(random.nextInt(possibleInputs.size()));
                 } else if (possibleInputs.contains(parentSudokuBoards[parent].getValueFromBoard(x, y))) {
                     childBoard[x][y] = parentSudokuBoards[parent].getValueFromBoard(x, y);

@@ -25,7 +25,7 @@ public class TournamentPromotion implements Promotion {
         for (int i = 0; i < nextPopulationSize; i++) {
             Individual first = population[random.nextInt(prevPopulationSize)];
             Individual second = population[random.nextInt(prevPopulationSize)];
-            if (first.getFitness() > second.getFitness()) {
+            if (first.compareTo(second) < 0) {
                 nextPopulation[i] = first;
             } else {
                 nextPopulation[i] = second;

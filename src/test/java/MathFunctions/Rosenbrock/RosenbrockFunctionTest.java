@@ -23,7 +23,7 @@ public class RosenbrockFunctionTest {
 
         configurer.setNumberOfChildren(2)
                 .setPopulationSize(100)
-                .setNumberOfGenerations(10000000)
+                .setNumberOfGenerations(100000)
                 .setMutationFrequency(0.04)
                 .setObjectiveFunction(new RosenbrockFunction())
                 .saveSettings();
