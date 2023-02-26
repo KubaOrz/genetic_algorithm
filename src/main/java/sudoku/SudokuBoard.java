@@ -1,8 +1,8 @@
 package sudoku;
 
-import GeneticAlgorithmFramework.Configuration.GlobalSettings;
-import GeneticAlgorithmFramework.Individual;
-import GeneticAlgorithmFramework.ObjectiveFunction;
+import geneticAlgorithmFramework.configuration.GlobalSettings;
+import geneticAlgorithmFramework.Individual;
+import geneticAlgorithmFramework.ObjectiveFunction;
 
 public class SudokuBoard implements Individual {
 
@@ -21,24 +21,14 @@ public class SudokuBoard implements Individual {
         return fitness;
     }
 
-    @Override
-    public void setFitness(int fitness) {
-        this.fitness = fitness;
-    }
-
     public Integer[][] getBoard() {
         return board;
-    }
-
-    public void setBoard(Integer[][] newBoard) {
-        this.board = newBoard;
-        this.fitness = (int) calculator.calculateValue(this);
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("______________________________\n");
+        builder.append("_________________\n");
         builder.append(fitness).append("\n\n");
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

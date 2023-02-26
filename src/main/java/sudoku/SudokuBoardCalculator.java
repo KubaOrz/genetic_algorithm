@@ -1,7 +1,7 @@
 package sudoku;
 
-import GeneticAlgorithmFramework.Individual;
-import GeneticAlgorithmFramework.ObjectiveFunction;
+import geneticAlgorithmFramework.Individual;
+import geneticAlgorithmFramework.ObjectiveFunction;
 
 public class SudokuBoardCalculator implements ObjectiveFunction {
 

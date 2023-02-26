@@ -1,9 +1,8 @@
 package sudoku;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 public class SudokuInputValidatorTest {
 
@@ -26,8 +25,14 @@ public class SudokuInputValidatorTest {
 
     @Test
     public void should_ReturnPossibleInputsCorrectly() {
-        List<Integer> inputs = SudokuInputValidator.checkPossibleInputs(board, 4, 7);
-        System.out.println(inputs);
-        System.out.println(board[4][7]);
+
+        // given
+        Integer[] expectedInputs = {5};
+
+        // when
+        Integer[] inputs = SudokuInputValidator.checkPossibleInputs(board, 1, 3).toArray(new Integer[0]);
+
+        // then
+        Assertions.assertArrayEquals(expectedInputs, inputs);
     }
 }

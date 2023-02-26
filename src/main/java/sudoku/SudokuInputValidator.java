@@ -9,8 +9,8 @@ public class SudokuInputValidator {
         inputs = checkColumn(puzzle, column);
         inputs.addAll(checkRow(puzzle, row));
         inputs.addAll(checkSquare(puzzle, row, column));
-        List<Integer> possibleInputs = new ArrayList<>();
 
+        List<Integer> possibleInputs = new ArrayList<>();
         for (int i = 1; i <= 9; i++) {
             if (!inputs.contains(i)) {
                 possibleInputs.add(i);

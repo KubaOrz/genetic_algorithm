@@ -1,8 +1,8 @@
 package sudoku;
 
-import GeneticAlgorithmFramework.GeneticOperators.Crossover;
-import GeneticAlgorithmFramework.Configuration.GlobalSettings;
-import GeneticAlgorithmFramework.Individual;
+import geneticAlgorithmFramework.geneticOperators.Crossover;
+import geneticAlgorithmFramework.configuration.GlobalSettings;
+import geneticAlgorithmFramework.Individual;
 
 import java.util.*;
 
@@ -30,45 +30,54 @@ public class SudokuBoardCrossover implements Crossover {
 
         for (int i = 0; i < childrenCount; i++) {
             Integer[][] childBoard = SudokuBoardGenerator.copyPuzzleSample();
-            List<Integer> unchecked = findUnchecked(childBoard);
 
-            while (unchecked.size() > 0) {
-                Integer cell = unchecked.get(random.nextInt(unchecked.size()));
-                int parent = random.nextInt(GlobalSettings.NUMBER_OF_PARENTS);
-                int x = cell / boardSize;
-                int y = cell % boardSize;
-                List<Integer> possibleInputs = SudokuInputValidator.checkPossibleInputs(childBoard, x, y);
+            inheritFromParents(childBoard, parentSudokuBoards);
+            fillWithRandomData(childBoard);
 
-                if (possibleInputs.isEmpty()) {
-                    unchecked.remove(cell);
-                    continue;
-                }
-
-                if (random.nextDouble() < settings.getMutationFrequency() && possibleInputs.size() > 1) {
-                    childBoard[x][y] = possibleInputs.get(random.nextInt(possibleInputs.size()));
-                } else if (possibleInputs.contains(parentSudokuBoards[parent].getValueFromBoard(x, y))) {
-                    childBoard[x][y] = parentSudokuBoards[parent].getValueFromBoard(x, y);
-                }
-                unchecked.remove(cell);
-            }
-
-            unchecked = findUnchecked(childBoard);
-            while (unchecked.size() > 0) {
-                Integer cell = unchecked.get(random.nextInt(unchecked.size()));
-                int x = cell / boardSize;
-                int y = cell % boardSize;
-                List<Integer> possibleInputs = SudokuInputValidator.checkPossibleInputs(childBoard, x, y);
-
-                if (possibleInputs.isEmpty()) {
-                    unchecked.remove(cell);
-                    continue;
-                }
-                childBoard[x][y] = possibleInputs.get(random.nextInt(possibleInputs.size()));
-                unchecked.remove(cell);
-            }
             children[i] = new SudokuBoard(childBoard);
         }
         return children;
+    }
+
+    private void inheritFromParents(Integer[][] childBoard, SudokuBoard[] parentSudokuBoards) {
+        List<Integer> unchecked = findUnchecked(childBoard);
+
+        while (unchecked.size() > 0) {
+            Integer cell = unchecked.get(random.nextInt(unchecked.size()));
+            int parent = random.nextInt(GlobalSettings.NUMBER_OF_PARENTS);
+            int x = cell / boardSize;
+            int y = cell % boardSize;
+            List<Integer> possibleInputs = SudokuInputValidator.checkPossibleInputs(childBoard, x, y);
+
+            if (possibleInputs.isEmpty()) {
+                unchecked.remove(cell);
+                continue;
+            }
+
+            if (random.nextDouble() < settings.getMutationFrequency() && possibleInputs.size() > 1) {
+                childBoard[x][y] = possibleInputs.get(random.nextInt(possibleInputs.size()));
+            } else if (possibleInputs.contains(parentSudokuBoards[parent].getValueFromBoard(x, y))) {
+                childBoard[x][y] = parentSudokuBoards[parent].getValueFromBoard(x, y);
+            }
+            unchecked.remove(cell);
+        }
+    }
+
+    private void fillWithRandomData(Integer[][] childBoard) {
+        List<Integer> unchecked = findUnchecked(childBoard);
+        while (unchecked.size() > 0) {
+            Integer cell = unchecked.get(random.nextInt(unchecked.size()));
+            int x = cell / boardSize;
+            int y = cell % boardSize;
+            List<Integer> possibleInputs = SudokuInputValidator.checkPossibleInputs(childBoard, x, y);
+
+            if (possibleInputs.isEmpty()) {
+                unchecked.remove(cell);
+                continue;
+            }
+            childBoard[x][y] = possibleInputs.get(random.nextInt(possibleInputs.size()));
+            unchecked.remove(cell);
+        }
     }
 
     private List<Integer> findUnchecked(Integer[][] puzzleSample) {

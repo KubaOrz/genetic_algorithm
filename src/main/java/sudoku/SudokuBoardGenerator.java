@@ -1,7 +1,7 @@
 package sudoku;
 
-import GeneticAlgorithmFramework.Individual;
-import GeneticAlgorithmFramework.PopulationGenerator;
+import geneticAlgorithmFramework.Individual;
+import geneticAlgorithmFramework.PopulationGenerator;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import static sudoku.SudokuInputValidator.checkPossibleInputs;
 public class SudokuBoardGenerator implements PopulationGenerator {
 
     private static Integer[][] puzzleSample;
-    private static final Random random = new Random();
+    private final Random random = new Random();
 
     public SudokuBoardGenerator(String path) {
         puzzleSample = new Integer[9][9];
@@ -31,9 +31,7 @@ public class SudokuBoardGenerator implements PopulationGenerator {
     public Individual[] generatePopulation(int number) {
         Individual[] initialPopulation = new Individual[number];
         for (int i = 0; i < number; i++) {
-            Integer[][] newBoard = generateSampleSolution(copyPuzzleSample());
-            Individual sudokuBoard = new SudokuBoard(newBoard);
-            initialPopulation[i] = sudokuBoard;
+            initialPopulation[i] = generateIndividual();
         }
         return initialPopulation;
     }
@@ -59,7 +57,8 @@ public class SudokuBoardGenerator implements PopulationGenerator {
                 puzzleSample[y][x] = value;
             }
         } catch (IOException e) {
-            //TODO może jakiś logger czy coś
+            System.out.println("Can't find the given file! Generating random puzzle...");
+            puzzleSample = generateSamplePuzzle();
         }
     }
 
